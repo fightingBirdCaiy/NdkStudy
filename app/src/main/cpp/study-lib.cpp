@@ -3,7 +3,7 @@
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_caiy_study_MainActivity_stringFromJNI(
+Java_com_caiy_study_bridge_HelloBridge_stringFromJNI(
         JNIEnv* env,
         jobject /* this */) {
     std::string hello = "来自 C++";
