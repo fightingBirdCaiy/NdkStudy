@@ -20,6 +20,8 @@
 
         <activity android:name=".activity.HelloActivity" />
 
+        <activity android:name=".activity.FmodActivity" />
+
     </application>
 
 </manifest>

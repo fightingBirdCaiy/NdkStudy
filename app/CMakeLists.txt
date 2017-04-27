@@ -19,6 +19,10 @@ add_library( # Sets the name of the library. so库名称
              # Provides a relative path to your source file(s). 源文件相对路径
              src/main/cpp/study-lib.cpp )
 
+ add_library(
+              fmod-lib
+              SHARED
+              src/main/cpp/fmod/fmod-lib.cpp )
 
 
 
@@ -44,7 +48,7 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
                        study-lib
-
+                       fmod-lib
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )

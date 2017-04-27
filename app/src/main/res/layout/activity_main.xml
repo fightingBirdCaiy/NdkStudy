@@ -48,4 +48,24 @@
         />
     </LinearLayout>
 
+    <LinearLayout
+            android:id="@+id/fmod_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+    >
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:text="fmod 示例"
+        />
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/black"
+        />
+    </LinearLayout>
+
 </LinearLayout>

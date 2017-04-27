@@ -1,5 +1,6 @@
 package com.caiy.study;
 
+import com.caiy.study.activity.FmodActivity;
 import com.caiy.study.activity.HelloActivity;
 import com.caiy.study.bridge.HelloBridge;
 
@@ -26,11 +27,21 @@ public class MainActivity extends Activity {
     }
 
     private void initEvent() {
+
         View helloLayout = findViewById(R.id.hello_layout);
         helloLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, HelloActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View fmodLayout = findViewById(R.id.fmod_layout);
+        fmodLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FmodActivity.class);
                 startActivity(intent);
             }
         });
