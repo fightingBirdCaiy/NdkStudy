@@ -12,6 +12,6 @@ public class FmodBridge {
         System.loadLibrary("fmod-lib");
     }
 
-    public static native void playFixVoice(String path, int type);
+    public static native String playFixVoice(String path, int type);
 
 }

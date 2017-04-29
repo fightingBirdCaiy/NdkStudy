@@ -19,7 +19,9 @@ public class FmodActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fmod);
 
-//        FmodBridge.playFixVoice("test",666);
+        TextView tv = (TextView) findViewById(R.id.sample_text);
+        String value = FmodBridge.playFixVoice("fmod学习",666);
+        tv.setText(value);
     }
 
 }
