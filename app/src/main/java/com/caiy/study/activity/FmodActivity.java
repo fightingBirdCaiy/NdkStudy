@@ -6,6 +6,7 @@ import com.caiy.study.bridge.HelloBridge;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -20,8 +21,12 @@ public class FmodActivity extends Activity{
         setContentView(R.layout.activity_fmod);
 
         TextView tv = (TextView) findViewById(R.id.sample_text);
-        String value = FmodBridge.playFixVoice("fmod学习",666);
-        tv.setText(value);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FmodBridge.playFixVoice("fmod学习",0);
+            }
+        });
     }
 
 }

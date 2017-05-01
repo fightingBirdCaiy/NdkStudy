@@ -3,7 +3,12 @@
 
 # Sets the minimum version of CMake required to build the native library.
 
+#配置CMake的最低版本
 cmake_minimum_required(VERSION 3.4.1)
+
+#配置工程路径
+#set(path_project /home/wuhuannan/AndroidPrj/VoiceChange)
+set(path_project E:/workspace_ndk/NdkStudy)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -24,7 +29,29 @@ add_library( # Sets the name of the library. so库名称
               SHARED
               src/main/cpp/fmod/fmod-lib.cpp )
 
+ #添加两个预编译的so库
+ add_library( fmod
+              SHARED
+              IMPORTED
+             )
 
+ add_library( fmodL
+              SHARED
+              IMPORTED
+             )
+
+#设置两个预编译的库的路径，注意这里最好要使用绝对路径，不然会链接错误
+set_target_properties(
+                       fmod
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libfmod.so
+                    )
+
+set_target_properties(
+                       fmodL
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libfmodL.so
+                    )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -40,15 +67,19 @@ find_library( # Sets the name of the path variable.
               log )
 
 
-
-
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
                        study-lib
+                       fmodL
+                       fmod
                        fmod-lib
                        # Links the target library to the log library
                        # included in the NDK.
-                       ${log-lib} )
+                       ${log-lib}
+                       )
+
+#配置头文件的包含路径
+include_directories(${path_project}/app/src/main/cpp/fmod)
