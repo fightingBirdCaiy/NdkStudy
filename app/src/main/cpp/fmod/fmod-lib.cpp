@@ -34,8 +34,12 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
     bool isPlaying = true;
     float frequency;
 
-    LOGE("%s", "测试日志输出");
+    LOGE("准备播放音频:%s", path);
 
+//    FILE * fouttest = fopen(path,"rw");
+//    if(fouttest == NULL){
+//        LOGE("文件无法打开:%s", path);
+//    }
 
     //fmod初始化
     System_Create(&system);
@@ -50,6 +54,7 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
             //原声播放
             //指定的是音轨0，最后update的时候才会播放
             system->playSound(sound, 0, false, &channel);
+            LOGI("%s", "音频播放了:normal");
             break;
 
         case TYPE_LUOLI:
@@ -61,7 +66,7 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
             //把处理对象添加到Channel的音轨0中(注意这里要先播放然后添加音轨特效)
             system->playSound(sound, 0, false, &channel);
             channel->addDSP(0, dsp);
-//            LOGE("%s", "luo li");
+            LOGI("%s", "音频播放了:luo li");
             break;
 
         case TYPE_DASHU:
@@ -72,7 +77,7 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
             //把处理对象添加到Channel的音轨0中
             system->playSound(sound, 0, false, &channel);
             channel->addDSP(0, dsp);
-//            LOGE("%s", "da shu");
+            LOGI("%s", "音频播放了:da shu");
             break;
 
         case TYPE_JINGSONG:
@@ -81,6 +86,7 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
             dsp->setParameterFloat(FMOD_DSP_TREMOLO_SKEW, 0.5);
             system->playSound(sound, 0, false, &channel);
             channel->addDSP(0, dsp);
+            LOGI("%s", "音频播放了:jing song");
             break;
 
         case TYPE_GAOGUAI:
@@ -90,7 +96,7 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
             channel->getFrequency(&frequency);
             frequency = frequency * 1.6;
             channel->setFrequency(frequency);
-//            LOGI("%s", "fix gaoguai");
+            LOGI("%s", "音频播放了:gao guai");
             break;
 
         case TYPE_KONGLING:
@@ -100,7 +106,7 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
             dsp->setParameterFloat(FMOD_DSP_ECHO_FEEDBACK, 20);
             system->playSound(sound, 0, false, &channel);
             channel->addDSP(0, dsp);
-//            LOGI("%s", "fix kongling");
+            LOGI("%s", "音频播放了:空灵");
             break;
 
         default:
@@ -115,15 +121,6 @@ Java_com_caiy_study_bridge_FmodBridge_playFixVoice(JNIEnv *env, jclass type_, js
         channel->isPlaying(&isPlaying);
         usleep(1 * 1000 * 1000);//单位是微妙，这里是1秒延时
     }
-
-    //CMake默认支持异常处理。
-    //播放的时候可能会有异常，例如文件找不到等等，然后把异常抛给Java，这里就省略了
-    //    try {
-    //
-    //    } catch (...) {
-    //
-    //    }
-
 
     //释放资源
     sound->release();
