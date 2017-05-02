@@ -1,14 +1,13 @@
 package com.caiy.study;
 
+import com.caiy.study.activity.CStudyActivity;
 import com.caiy.study.activity.FmodActivity;
 import com.caiy.study.activity.HelloActivity;
-import com.caiy.study.bridge.HelloBridge;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -33,6 +32,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, HelloActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View cStudyLayout = findViewById(R.id.c_study_layout);
+        cStudyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CStudyActivity.class);
                 startActivity(intent);
             }
         });
