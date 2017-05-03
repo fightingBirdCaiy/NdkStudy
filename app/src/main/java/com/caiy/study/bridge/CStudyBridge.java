@@ -20,4 +20,8 @@ public class CStudyBridge {
      */
     public native static void studyPointer();
 
+    /**
+     * 学习内存分配
+     */
+    public native static void studyMalloc();
 }

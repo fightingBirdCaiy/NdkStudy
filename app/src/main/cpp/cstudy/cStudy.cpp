@@ -149,3 +149,79 @@ Java_com_caiy_study_bridge_CStudyBridge_studyPointer(JNIEnv *env, jclass type) {
     LOGI("%s"," ")//打印空行
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CStudyBridge_studyMalloc(JNIEnv *env, jclass type) {
+    LOGE("------%s start------", "studyMalloc");
+
+    int length = 3;
+    int *p = (int *) malloc(length * sizeof(int));//10*4 = 40 分配内存
+//  int* p = calloc(length, sizeof(int));//10*4 = 40 分配内存 另外一种方法
+    LOGI("p=%#x", p);
+    LOGI("*p=%#x", *p);
+    LOGI("sizeof(p)=%d", sizeof(p));
+    LOGI("sizeof(*p)=%d", sizeof(*p));
+    int i = 0;
+    for (; i < length; i++) {
+        p[i] = i + 10;
+        LOGI("p[%d]=%#x,&p[%d]=%#x", i, p[i], i, &p[i]);
+    }
+    free(p);
+    p = NULL;
+
+    int *p1 = (int *) malloc(length * sizeof(int));
+    int addLength = 2;
+
+    //重新分配内存的两种情况：
+    //缩小，缩小的那一部分数据会丢失
+    //扩大，（连续的）
+    //1.如果当前内存段后面有需要的内存空间，直接扩展这段内存空间，realloc返回原指针
+    //2.如果当前内存段后面的空闲字节不够，那么就使用堆中的第一个能够满足这一要求的内存块，将目前的数据复制到新的位置，并将原来的数据库释放掉，返回新的内存地址
+    //3.如果申请失败，返回NULL，原来的指针仍然有效
+    int *p2 = (int *) realloc(p1, (length + addLength) * sizeof(int));//重新分配内存
+    int j = 0;
+
+    if (p2 != NULL) {
+        for (; j < length + addLength; j++) {
+            p2[j] = j;
+            LOGI("p2[%d]=%#x,&p2[%d]=%#x", j, p2[j], j, &p2[j]);
+        }
+
+        free(p2);
+        LOGI("free后仍然有值:p2=%#x", p2);
+//        free(p2);//注意不要释放两次 TODO 暂未找到多次释放后的问题
+        p2 = NULL;
+        LOGI("置为NULL后就真正为NULL了:p2=%#x", p2);
+
+        //下一次分配之前，如果不释放,会造成内存泄露
+        p2 = (int *) malloc(sizeof(int));
+        LOGI("下一次分配:p2=%#x", p2);
+        free(p2);
+        p2 = NULL;
+    }else{
+        if(p1 != NULL){
+            free(p1);
+            p1 = NULL;
+        }
+    }
+
+    //1.不能多次释放（否则会产生中断）
+    //2.释放完之后（指针仍然有值），给指针置NULL，标志释放完成
+    //3.内存泄露（p重新赋值之后，再free，并没有真正释放内存（之前的内存））
+
+    LOGE("------%s end------", "studyMalloc");
+    LOGI("%s"," ")//打印空行
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
