@@ -214,10 +214,66 @@ Java_com_caiy_study_bridge_CStudyBridge_studyMalloc(JNIEnv *env, jclass type) {
 }
 
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CStudyBridge_studyString(JNIEnv *env, jclass type) {
+    LOGE("------%s start------", "studyString");
 
+    //字符数组实现。数组可以修改其中某一个值，不可以整体赋值。
+    char str1[] = {'a','b','c','\0'};//可以不指定长度，但是需要有结束符
+    char str2[6] = {'a','b','c'};//可以指定长度
+    char str3[] = "abcdef";//
+    LOGI("str3=%s",str3);
+    str3[2] = '1';
+    LOGI("str3=%s",str3);
 
+    //字符指针实现。字符指针不可以修改其中某一个值，可以整体赋值。
+    char* str4 = "jkl";
+    LOGI("str4=%s",str4);
+    str4 = "12345678";
+    LOGI("str4=%s",str4);
+//    LOGI("*str4=%#x",*str4);
+//    LOGI("&str4=%#x",&str4);
+    str4 += 2;//截取字符串
+    LOGI("str4=%s",str4);
+    while(*str4){
+//        LOGI("*str4=%c,str4=%#x,&str4=%#x",*str4,str4,&str4);
+        LOGI("str4=%s",str4);
+        LOGI("*str4=%c",*str4);
+        str4++;
+    }
 
+    //strcpy 字符串拷贝
+    char dest[10];
+    LOGI("dest=%s",dest);//乱码显示
+    char* src = "abcdef";
+    strcpy(dest,src);
+    LOGI("dest=%s",dest);
 
+    //strcat 字符串拼接
+    strcat(dest,src);
+    LOGI("dest=%s",dest);
+
+    //strchr 字符查找
+    char* p = strchr(dest,'f');
+    if(p){
+        LOGI("%c的索引位置%d",*p,p-dest);
+    }else{
+        LOGI("未找到%s",p);
+    }
+
+    //strstr 字符串查找
+    char* match = "def";
+    char* pp = strstr(dest,match);
+    if(pp){
+        LOGI("%s的索引位置%d",match,pp-dest);
+    }else{
+        LOGI("未找到%s",pp);
+    }
+
+    LOGE("------%s end------", "studyString");
+    LOGI("%s"," ")//打印空行
+}
 
 
 

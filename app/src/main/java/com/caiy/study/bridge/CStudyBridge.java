@@ -24,4 +24,9 @@ public class CStudyBridge {
      * 学习内存分配
      */
     public native static void studyMalloc();
+
+    /**
+     * 学习字符串
+     */
+    public native static void studyString();
 }
