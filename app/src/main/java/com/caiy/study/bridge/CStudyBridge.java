@@ -15,4 +15,9 @@ public class CStudyBridge {
      */
     public native static void studyDataType();
 
+    /**
+     * 学习指针
+     */
+    public native static void studyPointer();
+
 }

@@ -19,6 +19,7 @@ public class CStudyActivity extends Activity{
         setContentView(R.layout.activity_c_study);
 
         CStudyBridge.studyDataType();
+        CStudyBridge.studyPointer();
     }
 
 }
