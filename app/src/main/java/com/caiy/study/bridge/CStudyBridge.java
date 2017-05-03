@@ -29,4 +29,9 @@ public class CStudyBridge {
      * 学习字符串
      */
     public native static void studyString();
+
+    /**
+     * 学习结构体
+     */
+    public native static void studyStruct();
 }

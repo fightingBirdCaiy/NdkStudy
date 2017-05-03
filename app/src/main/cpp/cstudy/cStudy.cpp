@@ -275,9 +275,93 @@ Java_com_caiy_study_bridge_CStudyBridge_studyString(JNIEnv *env, jclass type) {
     LOGI("%s"," ")//打印空行
 }
 
+void play(char* name){
+    LOGI("%s在玩农药",name);
+}
 
+struct Person{
+    char* name;
+    int age;
+    void(*play)(char* name);//函数指针
+} wangwu = {"王五",22,play};
 
+//在结构体定义的时候取别名
+typedef struct Person2{
+    char* name;
+    int age;
+}P_1,*P_2;//P_1是结构体的别名，P_2是结构体指针的别名，与变量的声明区分开（没有typedef）
 
+struct{
+    char* name;
+    int age;
+    struct Person delegate;
+    void(*play)(char* name);//函数指针
+} singleInstance = {"单例",99,wangwu,play};
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CStudyBridge_studyStruct(JNIEnv *env, jclass type) {
+    LOGE("------%s start------", "studyStruct");
+
+    struct Person zhangsan = {"张三",20,play};//结构体赋值方式1 初始化的时候赋值
+    zhangsan.play(zhangsan.name);
+
+    struct Person lisi;//结构体赋值方式2 初始化的时候未赋值
+    lisi.name = "李四";
+    lisi.age = 21;
+    lisi.play = play;
+    lisi.play(lisi.name);
+
+    wangwu.play(wangwu.name);//结构体赋值方式3
+
+    singleInstance.play(singleInstance.name);//匿名结构体
+    singleInstance.delegate.play(singleInstance.delegate.name);//嵌套结构体
+
+    struct Person* p = &zhangsan;//结构体指针
+    LOGI("(*p).name=%s,(*p).age=%d",(*p).name,(*p).age);
+    LOGI("p->name=%s,p->age=%d",p->name,p->age);
+
+    struct Person persons[] = {{"小冯",23,play},{"小李",24,play}};
+    LOGI("sizeof(persons)=%d", sizeof(persons));
+    LOGI("sizeof(struct Person)=%d", sizeof(struct Person));//结构体的大小
+    int size = sizeof(persons)/sizeof(struct Person);
+
+    //结构体数组
+    int i=0;
+    for(;i<size;i++){
+        LOGI("persons[i].name=%s,persons[i].age=%d",persons[i].name,persons[i].age);
+    }
+    struct Person* personPointer = persons;
+    for(;personPointer<persons+size;personPointer++){
+        LOGI("(*personPointer).name=%s,(*personPointer).age=%d",(*personPointer).name,(*personPointer).age);
+    }
+
+    //动态内存分配
+    size = 3;
+    i = 0;
+    struct Person* mallocPoint = (Person *) malloc(size * sizeof(struct Person));
+    for(;i<size;i++){
+        mallocPoint->name = "name";
+        mallocPoint->age = i;
+        LOGI("mallocPoint->age=%d",mallocPoint->age);
+        mallocPoint++;
+    }
+    free(mallocPoint);
+    mallocPoint = NULL;
+
+    //取别名
+    typedef struct Person P;//结构体取别名
+    P per;
+    //
+    typedef struct Person* PP;//结构体指针取别名
+    PP perPointer;
+
+    P_1 p1;//结构体取别名
+    P_2 p2 = &p1;//结构体指针取别名
+
+    LOGE("------%s end------", "studyStruct");
+    LOGI("%s"," ")//打印空行
+}
 
 
 

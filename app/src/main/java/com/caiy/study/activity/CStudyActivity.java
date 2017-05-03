@@ -22,6 +22,7 @@ public class CStudyActivity extends Activity{
         CStudyBridge.studyPointer();
         CStudyBridge.studyMalloc();
         CStudyBridge.studyString();
+        CStudyBridge.studyStruct();
     }
 
 }
