@@ -23,6 +23,7 @@ public class CStudyActivity extends Activity{
         CStudyBridge.studyMalloc();
         CStudyBridge.studyString();
         CStudyBridge.studyStruct();
+        CStudyBridge.studyUnionAndEnum();
     }
 
 }

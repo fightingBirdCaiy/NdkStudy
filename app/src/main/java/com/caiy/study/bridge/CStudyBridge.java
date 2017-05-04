@@ -34,4 +34,9 @@ public class CStudyBridge {
      * 学习结构体
      */
     public native static void studyStruct();
+
+    /**
+     * 学习联合体和枚举
+     */
+    public native static void studyUnionAndEnum();
 }

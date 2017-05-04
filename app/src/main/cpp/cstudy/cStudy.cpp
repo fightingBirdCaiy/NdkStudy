@@ -363,5 +363,38 @@ Java_com_caiy_study_bridge_CStudyBridge_studyStruct(JNIEnv *env, jclass type) {
     LOGI("%s"," ")//打印空行
 }
 
+union MyNumber{
+    int i;
+    long l;
+    double d;
+};
+
+typedef enum Direction{
+    East,
+    West,
+    North,
+    Sourth,
+    Middle
+} Direction;
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CStudyBridge_studyUnionAndEnum(JNIEnv *env, jclass type) {
+    LOGE("------%s start------", "studyUnionAndEnum");
+
+    //联合体
+    union MyNumber myNumber;
+    myNumber.i = 1;
+    myNumber.l = 2;
+    myNumber.d = 3.0;//最后一次赋值有效
+    LOGI("myNumber.i=%d,myNumber.l=%ld,myNumber.d=%lf",myNumber.i,myNumber.l,myNumber.d);
+
+    //枚举
+    Direction direction = Middle;
+    LOGI("direction=%#x,&direction=%#x",direction,&direction);
+
+    LOGE("------%s end------", "studyUnionAndEnum");
+    LOGI("%s"," ")//打印空行
+}
 
 
