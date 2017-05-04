@@ -444,3 +444,23 @@ Java_com_caiy_study_bridge_CStudyBridge_studyIO(JNIEnv *env, jclass type, jstrin
     LOGE("------%s end------", "studyIO");
     LOGI("%s"," ")//打印空行
 }
+
+#define MAX 100
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CStudyBridge_studyPreCompile(JNIEnv *env, jclass type) {
+    LOGE("------%s start------", "studyPreCompile");
+
+    #include "cInclude.cpp";
+
+    int i= 100;
+    if(i == MAX){
+        LOGI("宏定义常量MAX=%d",i);
+    }
+
+    //打印日志的LOGI就属于宏定义函数
+
+    LOGE("------%s end------", "studyPreCompile");
+    LOGI("%s"," ")//打印空行
+}

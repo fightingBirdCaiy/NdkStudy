@@ -31,6 +31,7 @@ public class CStudyActivity extends Activity{
         String readPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "read.txt";
         String writePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "write.txt";
         CStudyBridge.studyIO(readPath,writePath);
+        CStudyBridge.studyPreCompile();
     }
 
 }

@@ -48,4 +48,9 @@ public class CStudyBridge {
      * 学习IO
      */
     public native static void studyIO(String readPath,String writePath);
+
+    /**
+     * 学习预编译
+     */
+    public native static void studyPreCompile();
 }
