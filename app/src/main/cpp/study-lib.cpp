@@ -1,7 +1,6 @@
 #include <jni.h>
 #include <string>
 
-
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_caiy_study_bridge_HelloBridge_stringFromJNI(

@@ -398,3 +398,49 @@ Java_com_caiy_study_bridge_CStudyBridge_studyUnionAndEnum(JNIEnv *env, jclass ty
 }
 
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CStudyBridge_studyIO(JNIEnv *env, jclass type, jstring readPath_, jstring writePath_) {
+    LOGE("------%s start------", "studyIO");
+
+    const char *readPath = env->GetStringUTFChars(readPath_, 0);
+    const char *writePath = env->GetStringUTFChars(writePath_, 0);
+
+    FILE* readFile = fopen(readPath,"r");
+    FILE* writeFile = fopen(writePath,"w");
+    if(readFile == NULL || writeFile == NULL){
+        LOGE("文件无法打开readPath=%s,writePath=%s",readPath,writePath);
+    }else{
+        char buffer[64];
+        while(fgets(buffer,64,readFile)){//读取文件
+            LOGI("正在读取文件%s的内容:%s",readPath,buffer);
+            fputs(buffer,writeFile);//写文件
+        }
+
+        fseek(readFile,0,SEEK_END);//seek到文件的结尾，0L代表向前偏移几个字节
+        long readFileSize = ftell(readFile);//返回当前的文件指针相对于文件开头的位移量
+        LOGI("readFileSize=%ld",readFileSize)
+
+        fclose(readFile);
+        fclose(writeFile);
+
+        FILE* readWriteFile = fopen(writePath,"r");
+        while(fgets(buffer,64,readWriteFile)){
+            LOGI("正在读取文件%s的内容:%s",writePath,buffer);
+        }
+
+        fclose(readWriteFile);
+    }
+
+    //TODO 读写二进制文件
+    //TODO 文件加解密
+    //TODO 二进制文件加解密
+    //TODO 文件分割合并
+
+    env->ReleaseStringUTFChars(readPath_, readPath);
+    env->ReleaseStringUTFChars(writePath_, writePath);
+
+
+    LOGE("------%s end------", "studyIO");
+    LOGI("%s"," ")//打印空行
+}

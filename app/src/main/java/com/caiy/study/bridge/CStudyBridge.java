@@ -4,6 +4,10 @@ package com.caiy.study.bridge;
  * Created by yongc on 17/5/2.
  */
 
+/**
+ * TODO C++成员变量内存对齐问题,ndk下非对齐的内存访问导致BUS_ADRALN
+ * http://www.cnblogs.com/mlj318/p/6089001.html
+ */
 public class CStudyBridge {
 
     static {
@@ -39,4 +43,9 @@ public class CStudyBridge {
      * 学习联合体和枚举
      */
     public native static void studyUnionAndEnum();
+
+    /**
+     * 学习IO
+     */
+    public native static void studyIO(String readPath,String writePath);
 }
