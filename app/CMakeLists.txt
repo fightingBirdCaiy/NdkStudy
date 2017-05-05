@@ -31,6 +31,12 @@ add_library( # Sets the name of the library. so库名称
             )
 
  add_library(
+             jniStudy
+             SHARED
+             src/main/cpp/jnistudy/jniStudy.cpp
+            )
+
+ add_library(
               fmod-lib
               SHARED
               src/main/cpp/fmod/fmod-lib.cpp )
@@ -88,5 +94,6 @@ target_link_libraries( # Specifies the target library.
                        )
 
 #配置头文件的包含路径
-include_directories(${path_project}/app/src/main/cpp/fmod)
 include_directories(${path_project}/app/src/main/cpp/cstudy)
+include_directories(${path_project}/app/src/main/cpp/jnistudy)
+include_directories(${path_project}/app/src/main/cpp/fmod)

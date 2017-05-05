@@ -11,7 +11,7 @@
             android:id="@+id/sample_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请查看日志\n\n关键词为TAG\n\n包括以下内容：\n\n数据类型\n\n指针\n\n内存分配\n\n字符串\n\n结构体\n\n联合体和枚举\n\nIO\n\n预编译"
+            android:text="C语言学习\n\n请查看日志\n\n关键词为TAG\n\n包括以下内容：\n\n数据类型\n\n指针\n\n内存分配\n\n字符串\n\n结构体\n\n联合体和枚举\n\nIO\n\n预编译"
             android:layout_centerInParent="true"/>
 
 </RelativeLayout>

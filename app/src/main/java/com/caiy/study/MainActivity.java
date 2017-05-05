@@ -3,6 +3,7 @@ package com.caiy.study;
 import com.caiy.study.activity.CStudyActivity;
 import com.caiy.study.activity.FmodActivity;
 import com.caiy.study.activity.HelloActivity;
+import com.caiy.study.activity.JniStudyActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -41,6 +42,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CStudyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View jniStudyLayout = findViewById(R.id.jni_study_layout);
+        jniStudyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, JniStudyActivity.class);
                 startActivity(intent);
             }
         });
