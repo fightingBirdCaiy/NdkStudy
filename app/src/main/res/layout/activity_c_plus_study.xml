@@ -11,7 +11,7 @@
         android:id="@+id/sample_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="JNI学习\n\n请查看日志\n\n关键词为TAG\n\n"
+        android:text="c++学习\n\n请查看日志\n\n关键词为TAG\n\n"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>
