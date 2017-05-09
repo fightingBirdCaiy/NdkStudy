@@ -32,6 +32,8 @@
 
         <activity android:name=".activity.JniStudyActivity" />
 
+        <activity android:name=".activity.CPlusStudyActivity" />
+
         <activity android:name=".activity.FmodActivity" />
 
     </application>

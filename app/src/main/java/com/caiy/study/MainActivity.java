@@ -1,5 +1,6 @@
 package com.caiy.study;
 
+import com.caiy.study.activity.CPlusStudyActivity;
 import com.caiy.study.activity.CStudyActivity;
 import com.caiy.study.activity.FmodActivity;
 import com.caiy.study.activity.HelloActivity;
@@ -51,6 +52,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, JniStudyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View cPlusStudyLayout = findViewById(R.id.c_plus_study_layout);
+        cPlusStudyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CPlusStudyActivity.class);
                 startActivity(intent);
             }
         });
