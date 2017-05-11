@@ -11,6 +11,11 @@ public class CPlusStudyBridge {
     }
 
     /**
+     * 学习基本概念
+     */
+    public native static void studyBasicConcept();
+
+    /**
      * 学习类
      */
     public native static void studyClass();

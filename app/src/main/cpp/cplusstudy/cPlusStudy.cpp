@@ -6,6 +6,167 @@
 #define LOGI(FORMAT,...) __android_log_print(ANDROID_LOG_INFO,"TAG",FORMAT,##__VA_ARGS__);
 #define LOGE(FORMAT,...) __android_log_print(ANDROID_LOG_ERROR,"TAG",FORMAT,##__VA_ARGS__);
 
+namespace name1{
+    int i = 1;
+
+    namespace name2{
+        int i = 2;
+    }
+
+    struct StructDemo{
+    public:
+        char* desc;
+        void toString(){
+            LOGI("StructDemo toString方法调用了,this->desc=%s",this->desc);
+        }
+    private:
+
+    };
+}
+
+void testDefault(int a, int b = 2, int c = 3){
+    LOGI("testDefault方法调用了,a=%d,b=%d,c=%d",a,b,c);
+}
+
+void testArgs(int a, int b, ...){
+    va_list args;
+    va_start(args,b);
+    char c = va_arg(args,char);
+    int d = va_arg(args,int);
+    va_end(args);
+    LOGI("testArg方法调用了,a=%d,b=%d,c=%c,d=%d",a,b,c,d);
+}
+
+void swapInt(int a, int b){
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+void swapIntRef(int &a, int &b){
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+void swapChar(char a, char b){
+    char temp = a;
+    a = b;
+    b = temp;
+}
+
+void swapCharRef(char &a, char &b){
+    char temp = a;
+    a = b;
+    b = temp;
+}
+
+template <typename T>
+void swapTeplate(T &a, T &b){
+    T temp = a;
+    a = b;
+    b = temp;
+}
+
+template<class T>
+class A{
+public:
+    A(T t){
+        this->t = t;
+        LOGI("A类 一个参数的构造函数调用了");
+    }
+protected:
+    T t;
+};
+
+//普通类继承模板类
+class B:public A<int>{
+public:
+    B(int i):A<int>(i){
+        LOGI("B类 一个参数的构造函数调用了");
+    }
+};
+
+//模板类继承模板类
+template<class T>
+class C:public A<T>{
+public:
+    C(T t):A<T>(t){
+        LOGI("C类 一个参数的构造函数调用了");
+    }
+};
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CPlusStudyBridge_studyBasicConcept(JNIEnv *env, jclass type) {
+    LOGE("------%s start------", "studyBasicConcept");
+
+    //命名空间
+    LOGI("name1::i=%d",name1::i);
+    LOGI("name1::name2::i=%d",name1::name2::i);
+
+    //结构体
+    name1::StructDemo structDemo;
+    structDemo.desc = "c++中的结构体StructDemo";
+    structDemo.toString();
+
+    //类 后面有单独介绍，这里不重复写
+
+    //bool变量 大于0为真，小于等于0为假
+    bool condition = true;
+    if(condition){
+        LOGI("条件为真，condition=%d",condition);
+    }else{
+        LOGI("条件为假，condition=%d",condition);
+    }
+    condition = false;
+    LOGI("condition固定成false,condition=%d",condition);
+
+    //函数默认值
+    testDefault(1);
+    testDefault(2,4);
+    testDefault(8,16,32);
+
+    //可变参数
+    testArgs(1,2,'c',3);
+
+    int aInt = 1;
+    int bInt = 2;
+    swapInt(aInt,bInt);
+    LOGI("swap(aInt,bInt)后,aInt=%d,bInt=%d",aInt,bInt)
+    aInt = 3;
+    bInt = 4;
+    swapIntRef(aInt,bInt);
+    LOGI("swapIntRef(aInt,bInt)后,aInt=%d,bInt=%d",aInt,bInt)
+    char aChar = 'a';
+    char bChar = 'b';
+    swapChar(aChar,bChar);
+    LOGI("swapChar(aChar,bChar)后,aChar=%c,aChar=%c",aChar,bChar);
+    aChar = 'c';
+    bChar = 'd';
+    swapCharRef(aChar,bChar);
+    LOGI("swapCharRef(aChar,bChar)后,aChar=%c,aChar=%c",aChar,bChar);
+
+    //模板函数
+    aInt = 10;
+    bInt = 20;
+    swapTeplate(aInt,bInt);
+    LOGI("swapTeplate(aInt,bInt)后,aInt=%d,bInt=%d",aInt,bInt)
+    aChar = 'A';
+    bChar = 'B';
+    swapTeplate(aChar,bChar);
+    LOGI("swapTeplate(aChar,bChar)后,aChar=%c,aChar=%c",aChar,bChar);
+
+    //模板类
+    A<int> a(10);
+    A<char> a2('a');
+    B b = B(20);
+    C<double> c = C<double>(10.0);
+
+    LOGE("------%s end------", "studyBasicConcept");
+    LOGI("%s"," ")//打印空行
+}
+
 class Teacher{
 public :
     Teacher(){
