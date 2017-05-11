@@ -15,4 +15,8 @@ public class CPlusStudyBridge {
      */
     public native static void studyClass();
 
+    /**
+     * 学习面向对象
+     */
+    public native static void studyOOP();
 }

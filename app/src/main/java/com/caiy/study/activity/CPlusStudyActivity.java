@@ -18,5 +18,6 @@ public class CPlusStudyActivity extends Activity{
         setContentView(R.layout.activity_c_plus_study);
 
         CPlusStudyBridge.studyClass();
+        CPlusStudyBridge.studyOOP();
     }
 }

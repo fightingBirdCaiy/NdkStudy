@@ -212,3 +212,149 @@ Java_com_caiy_study_bridge_CPlusStudyBridge_studyClass(JNIEnv *env, jclass type)
     LOGE("------%s end------", "studyClass");
     LOGI("%s"," ")//打印空行
 }
+
+class Father{
+public:
+    Father(){
+        this->name = "默认名";
+        this->age = 100;
+        LOGI("Father默认构造函数调用了");
+    }
+    Father(char* name, int age){
+        this->name = name;
+        this->age = age;
+        LOGI("Father两个参数的构造函数调用了,name=%s,age=%d",this->name,this->age);
+    }
+    Father(const Father &other){
+        this->name = other.name;
+        this->age = other.age;
+        LOGI("Father拷贝构造函数调用了,name=%s,age=%d",this->name,this->age);
+    }
+
+    ~Father(){
+        LOGI("Father析构函数调用了");
+    }
+
+    void toString(){
+        LOGI("Father toString函数调用了,name=%s,age=%d",this->name,this->age);
+    }
+
+    virtual void talk(){
+        LOGI("Father talk函数调用了,name=%s,age=%d",this->name,this->age);
+    }
+private:
+    char* name;
+    int age;
+};
+
+class Son :public Father{
+public:
+    Son(){
+        this->toy = "默认玩具";
+    }
+
+    Son(char* name, int age, char* toy) :Father(name,age){
+        this->toy = toy;
+        LOGI("Son 三个参数的构造函数调用了,toy=%s",this->toy);
+    }
+
+    Son(const Son &other):Father(){
+        //TODO 拷贝时父类的属性如何拷贝
+        this->toy = other.toy;
+        LOGI("Son 拷贝构造函数调用了,toy=%s",this->toy);
+    }
+
+    ~Son(){
+        LOGI("Son析构函数调用了");
+    }
+
+    void toString(){
+        LOGI("Son toString函数调用了,toy=%s",this->toy);
+    }
+
+    virtual void talk(){
+        LOGI("Son talk函数调用了,toy=%s",this->toy);
+    }
+private:
+    char* toy;
+};
+
+void talk(Father &father){
+    father.talk();
+}
+
+//相当与java中的接口
+class Shape{
+public:
+    virtual double area() = 0;
+};
+
+class Circle :public Shape{
+public:
+    Circle(double radius){
+        this->radius = radius;
+    }
+
+    double area(){
+         return 3.14*radius*radius;
+    }
+private:
+    double radius;
+};
+
+class Rectangle :public Shape{
+public:
+    Rectangle(double width, double height){
+        this->width = width;
+        this->height = height;
+    }
+
+    double area(){
+        return width*height;
+    }
+private:
+    double width;
+    double height;
+};
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_caiy_study_bridge_CPlusStudyBridge_studyOOP(JNIEnv *env, jclass type) {
+    LOGE("------%s start------", "studyOOP");
+
+    Son son = Son("父亲",23,"乐高积木");
+
+
+
+    Father father = son;//Father的拷贝构造函数、析构函数会被调用
+    Father &fatherRef = son;//Father的析构函数不会被调用
+
+    //调用父类的toString方法
+    son.Father::toString();
+    father.toString();
+    fatherRef.toString();
+
+    //调用子类的toString方法
+    son.Son::toString();
+    son.toString();
+
+    Son son2 = son;//Father和Son的构造和析构函数都会被调用
+
+    //TODO
+    //虚继承 virtual public
+
+    //多态 虚函数
+    Father fatherMulti = Father();
+    Son sonMulti = Son();
+    talk(fatherMulti);
+    talk(sonMulti);
+
+    //多态 纯虚函数 相当于 接口
+    Circle circle = Circle(1);
+    Rectangle rectangle = Rectangle(2,3);
+    LOGI("circle.area()=%lf",circle.area());
+    LOGI("rectangle.area()=%lf",rectangle.area());
+
+    LOGE("------%s end------", "studyOOP");
+    LOGI("%s"," ")//打印空行
+}
