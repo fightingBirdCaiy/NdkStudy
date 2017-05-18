@@ -24,7 +24,7 @@ public class CStudyActivity extends Activity{
         CStudyBridge.studyDataType();
         CStudyBridge.studyPointer();
         CStudyBridge.studyMalloc();
-        CStudyBridge.studyString();
+//        CStudyBridge.studyString();//TODO--- 字符串报错，待解决
         CStudyBridge.studyStruct();
         CStudyBridge.studyUnionAndEnum();
 

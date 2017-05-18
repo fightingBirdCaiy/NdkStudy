@@ -234,6 +234,7 @@ Java_com_caiy_study_bridge_CStudyBridge_studyString(JNIEnv *env, jclass type) {
     LOGI("str4=%s",str4);
 //    LOGI("*str4=%#x",*str4);
 //    LOGI("&str4=%#x",&str4);
+
     str4 += 2;//截取字符串
     LOGI("str4=%s",str4);
     while(*str4){

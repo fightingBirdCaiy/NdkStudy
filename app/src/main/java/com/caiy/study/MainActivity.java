@@ -5,6 +5,7 @@ import com.caiy.study.activity.CStudyActivity;
 import com.caiy.study.activity.FmodActivity;
 import com.caiy.study.activity.HelloActivity;
 import com.caiy.study.activity.JniStudyActivity;
+import com.caiy.study.activity.PlayerStudyActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -70,6 +71,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, FmodActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View playerStudyLayout = findViewById(R.id.player_study_layout);
+        playerStudyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PlayerStudyActivity.class);
                 startActivity(intent);
             }
         });

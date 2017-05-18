@@ -24,39 +24,77 @@ add_library( # Sets the name of the library. so库名称
              # Provides a relative path to your source file(s). 源文件相对路径
              src/main/cpp/study-lib.cpp )
 
- add_library(
-             cStudy
-             SHARED
-             src/main/cpp/cstudy/cStudy.cpp
-            )
+add_library(
+         cStudy
+         SHARED
+         src/main/cpp/cstudy/cStudy.cpp
+        )
 
- add_library(
-             jniStudy
-             SHARED
-             src/main/cpp/jnistudy/jniStudy.cpp
-            )
+add_library(
+         jniStudy
+         SHARED
+         src/main/cpp/jnistudy/jniStudy.cpp
+        )
 
- add_library(
-             cPlusStudy
-             SHARED
-             src/main/cpp/cplusstudy/cPlusStudy.cpp
-            )
+add_library(
+         cPlusStudy
+         SHARED
+         src/main/cpp/cplusstudy/cPlusStudy.cpp
+        )
 
- add_library(
-              fmod-lib
-              SHARED
-              src/main/cpp/fmod/fmod-lib.cpp )
+add_library(
+          fmod-lib
+          SHARED
+          src/main/cpp/fmod/fmod-lib.cpp )
 
- #添加两个预编译的so库
- add_library( fmod
-              SHARED
-              IMPORTED
-             )
+#添加两个预编译的so库
+add_library(
+          fmod
+          SHARED
+          IMPORTED
+         )
 
- add_library( fmodL
-              SHARED
-              IMPORTED
-             )
+add_library(
+          fmodL
+          SHARED
+          IMPORTED
+         )
+
+add_library(
+          avcodec
+          SHARED
+          IMPORTED
+         )
+
+add_library(
+          avfilter
+          SHARED
+          IMPORTED
+         )
+
+add_library(
+           avformat
+           SHARED
+           IMPORTED
+          )
+
+add_library(
+           avutil
+           SHARED
+           IMPORTED
+          )
+
+add_library(
+           swresample
+           SHARED
+           IMPORTED
+          )
+
+add_library(
+           swscale
+           SHARED
+           IMPORTED
+          )
 
 #设置两个预编译的库的路径，注意这里最好要使用绝对路径，不然会链接错误
 set_target_properties(
@@ -70,6 +108,42 @@ set_target_properties(
                        PROPERTIES IMPORTED_LOCATION
                        ${path_project}/app/libs/${ANDROID_ABI}/libfmodL.so
                     )
+
+set_target_properties(
+                       avcodec
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libavcodec-56.so
+                    )
+
+set_target_properties(
+                       avfilter
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libavfilter-5.so
+                    )
+
+set_target_properties(
+                       avformat
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libavformat-56.so
+                    )
+
+set_target_properties(
+                       avutil
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libavutil-54.so
+                    )
+
+set_target_properties(
+                       swresample
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libswresample-1.so
+                    )
+
+                    set_target_properties(
+                                           swscale
+                                           PROPERTIES IMPORTED_LOCATION
+                                           ${path_project}/app/libs/${ANDROID_ABI}/libswscale-3.so
+                                        )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

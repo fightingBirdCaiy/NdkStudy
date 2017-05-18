@@ -36,6 +36,8 @@
 
         <activity android:name=".activity.FmodActivity" />
 
+        <activity android:name=".activity.PlayerStudyActivity" />
+
     </application>
 
 </manifest>
