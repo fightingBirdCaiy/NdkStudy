@@ -47,6 +47,11 @@ add_library(
           SHARED
           src/main/cpp/fmod/fmod-lib.cpp )
 
+add_library(
+        playerStudy
+        SHARED
+        src/main/cpp/playerstudy/playerStudy.cpp )
+
 #添加两个预编译的so库
 add_library(
           fmod
@@ -173,8 +178,22 @@ target_link_libraries( # Specifies the target library.
                        ${log-lib}
                        )
 
+target_link_libraries(
+            playerStudy
+            ${log-lib}
+            avutil
+            swresample
+            avcodec
+            avformat
+            swscale
+            #postproc
+            avfilter
+            #avdevice
+            )
+
 #配置头文件的包含路径
 include_directories(${path_project}/app/src/main/cpp/cstudy)
 include_directories(${path_project}/app/src/main/cpp/jnistudy)
 include_directories(${path_project}/app/src/main/cpp/cplusstudy)
 include_directories(${path_project}/app/src/main/cpp/fmod)
+include_directories(${path_project}/app/src/main/cpp/playerstudy)
