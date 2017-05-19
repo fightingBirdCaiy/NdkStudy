@@ -89,6 +89,71 @@ Java_com_caiy_study_bridge_PlayerStudyBridge_decode(JNIEnv *env, jclass type, js
     LOGI("视频的宽高:%d,%d",pCodecContext->width,pCodecContext->height);
     LOGI("解码器的名称:%s",pCodec->name);
 
+    //准备读取
+    //AVPacket用于存储一帧一帧的压缩数据（H264）
+    //缓冲区，开辟空间
+    AVPacket *pPacket = (AVPacket *) av_malloc(sizeof(AVPacket));
+    //内存分配
+    AVFrame *pFrame = av_frame_alloc();
+    //YUV420 用于存储解码后的像素数据(YUV)
+    AVFrame *pFrameYUV = av_frame_alloc();
+
+    //只有指定了AVFrame的像素格式、画面大小才能真正分配内存
+    //缓冲区分配内存
+    uint8_t *out_buffer = (uint8_t *) av_malloc(sizeof(avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecContext->width,
+                                                                          pCodecContext->height)));
+    //初始化缓冲区
+    avpicture_fill((AVPicture *)pFrameYUV,out_buffer,AV_PIX_FMT_YUV420P,pCodecContext->width,pCodecContext->height);
+
+    //用于转码（缩放）的参数，转之前的宽高，转之后的宽高，格式等
+    SwsContext *pSwsContext = sws_getContext(pCodecContext->width,pCodecContext->height,pCodecContext->pix_fmt,
+                                  pCodecContext->width,pCodecContext->height,AV_PIX_FMT_YUV420P,SWS_BICUBIC,NULL,NULL,NULL);
+
+    int got_picture,ret;
+    FILE *fp_yuv = fopen(output,"wb+");
+
+    int frame_count = 0;
+
+    //6.一帧一帧的读取压缩数据
+    while(av_read_frame(pformatContext,pPacket) >= 0){
+        //只要视频压缩数据（根据流的索引位置判断）
+        if(pPacket->stream_index == v_stream_idx){
+            //7.解码一帧视频压缩数据，得到视频像素数据
+            ret = avcodec_decode_video2(pCodecContext,pFrame,&got_picture,pPacket);
+            if(ret < 0){
+                LOGE("%s","解码错误");
+                return;
+            }
+
+            //为0说明解码完成，非0正在解码
+            if(got_picture){
+                //AVFrame转为像素格式YUV420，宽高
+                //2 6输入、输出数据
+                //3 7输入、输出画面一行的数据的大小 AVFrame 转换是一行一行转换的
+                //4 输入数据第一列要转码的位置 从0开始
+                //5 输入画面的高度
+                //TODO 编译错误，待解决
+//                sws_scale(pSwsContext, pFrame->data, pFrame->linesize, 0, pCodecContext->height,
+//                          pFrameYUV->data,
+//                          pFrameYUV->linesize);
+
+
+                int y_size = pCodecContext->width * pCodecContext->height;
+                fwrite(pFrameYUV->data[0],1,y_size,fp_yuv);
+                fwrite(pFrameYUV->data[1], 1, y_size / 4, fp_yuv);
+                fwrite(pFrameYUV->data[2], 1, y_size / 4, fp_yuv);
+
+                frame_count++;
+                LOGI("解码第%d帧完成",frame_count);
+            }
+        }
+        av_free_packet(pPacket);
+    }
+
+    fclose(fp_yuv);
+
+    av_frame_free(&pFrame);
+
     avcodec_close(pCodecContext);
 
     avformat_free_context(pformatContext);
