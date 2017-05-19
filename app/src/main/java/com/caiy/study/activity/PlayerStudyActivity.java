@@ -1,14 +1,22 @@
 package com.caiy.study.activity;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.caiy.study.R;
 import com.caiy.study.bridge.PlayerStudyBridge;
+import com.caiy.study.view.VideoView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+import android.view.SurfaceView;
 import android.view.View;
 
 /**
@@ -16,6 +24,9 @@ import android.view.View;
  */
 
 public class PlayerStudyActivity extends Activity{
+
+    private static ExecutorService sThreadPoll = Executors.newCachedThreadPool(new MyThreadFactory());
+    private static final String TAG = "PlayerStudyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,35 @@ public class PlayerStudyActivity extends Activity{
                 PlayerStudyBridge.decode(inputVideo, outputVideo);
             }
         });
+
+        View playerLayout = findViewById(R.id.player_layout);
+        final SurfaceView videoView = (SurfaceView)findViewById(R.id.player_video_view);
+        playerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PlayerStudyBridge bridge = new PlayerStudyBridge();
+                final String inputVideo = Environment.getExternalStorageDirectory().getAbsolutePath() + File
+                        .separatorChar  + "input.mp4";
+                sThreadPoll.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        bridge.player(inputVideo,videoView.getHolder().getSurface());
+                    }
+                });
+            }
+        });
+    }
+
+    private static class MyThreadFactory implements ThreadFactory {
+        static final AtomicInteger threadNumber = new AtomicInteger(1);
+
+        @Override
+        public Thread newThread(Runnable r) {
+            String threadName = TAG + "_" + threadNumber.getAndIncrement();
+            Thread thread = new Thread(r,threadName);
+            Log.i(TAG,"新创建了线程:" + threadName);
+            return thread;
+        }
     }
 
 }

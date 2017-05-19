@@ -101,6 +101,12 @@ add_library(
            IMPORTED
           )
 
+#YUV转RGB需要的库
+add_library( yuv
+           SHARED
+           IMPORTED
+          )
+
 #设置两个预编译的库的路径，注意这里最好要使用绝对路径，不然会链接错误
 set_target_properties(
                        fmod
@@ -144,11 +150,17 @@ set_target_properties(
                        ${path_project}/app/libs/${ANDROID_ABI}/libswresample-1.so
                     )
 
-                    set_target_properties(
-                                           swscale
-                                           PROPERTIES IMPORTED_LOCATION
-                                           ${path_project}/app/libs/${ANDROID_ABI}/libswscale-3.so
-                                        )
+set_target_properties(
+                       swscale
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libswscale-3.so
+                    )
+
+set_target_properties(
+                       yuv
+                       PROPERTIES IMPORTED_LOCATION
+                       ${path_project}/app/libs/${ANDROID_ABI}/libyuv.so
+                    )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -162,6 +174,12 @@ find_library( # Sets the name of the path variable.
               # Specifies the name of the NDK library that
               # you want CMake to locate.
               log )
+
+#找到Android的Window绘制相关的库（这个库已经在Android平台中了）
+find_library(
+          android-lib
+          android
+          )
 
 
 # Specifies libraries CMake should link to your target library. You
@@ -181,6 +199,7 @@ target_link_libraries( # Specifies the target library.
 target_link_libraries(
             playerStudy
             ${log-lib}
+            ${android-lib}
             avutil
             swresample
             avcodec
@@ -189,6 +208,7 @@ target_link_libraries(
             #postproc
             avfilter
             #avdevice
+            yuv
             )
 
 #配置头文件的包含路径

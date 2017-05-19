@@ -36,7 +36,7 @@
 
         <activity android:name=".activity.FmodActivity" />
 
-        <activity android:name=".activity.PlayerStudyActivity" />
+        <activity android:name=".activity.PlayerStudyActivity"/>
 
     </application>
 

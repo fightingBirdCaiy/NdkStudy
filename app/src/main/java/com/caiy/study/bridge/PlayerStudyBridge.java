@@ -1,5 +1,7 @@
 package com.caiy.study.bridge;
 
+import android.view.Surface;
+
 /**
  * Created by yongc on 2017/5/17.
  */
@@ -15,9 +17,12 @@ public class PlayerStudyBridge {
 //        System.loadLibrary("postproc-53");
         System.loadLibrary("avfilter-5");
 //        System.loadLibrary("avdevice-56");
+        System.loadLibrary("yuv");
         System.loadLibrary("playerStudy");
     }
 
 
     public native static void decode(String input, String output);
+
+    public native void player(String input, Surface surface);
 }
