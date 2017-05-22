@@ -5,6 +5,7 @@ import java.io.File;
 import com.caiy.study.R;
 import com.caiy.study.bridge.FmodBridge;
 import com.caiy.study.bridge.HelloBridge;
+import com.caiy.study.util.ThreadUtil;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -42,7 +43,13 @@ public class FmodActivity extends Activity{
         normalView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FmodBridge.playFixVoice(path,FmodBridge.TYPE_NORMAL);
+                ThreadUtil.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        FmodBridge.playFixVoice(path,FmodBridge.TYPE_NORMAL);
+                    }
+                });
+
             }
         });
 
@@ -51,7 +58,12 @@ public class FmodActivity extends Activity{
         luoLiView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FmodBridge.playFixVoice(path,FmodBridge.TYPE_LUOLI);
+                ThreadUtil.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        FmodBridge.playFixVoice(path,FmodBridge.TYPE_LUOLI);
+                    }
+                });
             }
         });
 
@@ -60,7 +72,12 @@ public class FmodActivity extends Activity{
         daShuView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FmodBridge.playFixVoice(path,FmodBridge.TYPE_DASHU);
+                ThreadUtil.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        FmodBridge.playFixVoice(path,FmodBridge.TYPE_DASHU);
+                    }
+                });
             }
         });
 
@@ -70,7 +87,12 @@ public class FmodActivity extends Activity{
             @Override
             public void onClick(View view) {
                 Toast.makeText(FmodActivity.this,"请自行开启该功能，慎用！",Toast.LENGTH_SHORT).show();
-//                FmodBridge.playFixVoice(path,FmodBridge.TYPE_JINGSONG);
+//                ThreadUtil.submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        FmodBridge.playFixVoice(path,FmodBridge.TYPE_JINGSONG);
+//                    }
+//                });
             }
         });
 
@@ -79,7 +101,12 @@ public class FmodActivity extends Activity{
         gaoGuaiView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FmodBridge.playFixVoice(path,FmodBridge.TYPE_GAOGUAI);
+                ThreadUtil.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        FmodBridge.playFixVoice(path,FmodBridge.TYPE_GAOGUAI);
+                    }
+                });
             }
         });
 
@@ -88,8 +115,13 @@ public class FmodActivity extends Activity{
         kongLingView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FmodBridge.playFixVoice(path,FmodBridge.TYPE_KONGLING);
-            }
+                ThreadUtil.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        FmodBridge.playFixVoice(path,FmodBridge.TYPE_KONGLING);
+                    }
+                });
+        }
         });
     }
 

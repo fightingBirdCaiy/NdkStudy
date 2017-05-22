@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.caiy.study.R;
 import com.caiy.study.bridge.PlayerStudyBridge;
+import com.caiy.study.util.ThreadUtil;
 import com.caiy.study.view.VideoView;
 
 import android.app.Activity;
@@ -24,9 +25,6 @@ import android.view.View;
  */
 
 public class PlayerStudyActivity extends Activity{
-
-    private static ExecutorService sThreadPoll = Executors.newCachedThreadPool(new MyThreadFactory());
-    private static final String TAG = "PlayerStudyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +42,16 @@ public class PlayerStudyActivity extends Activity{
         decodeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String inputVideo = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separatorChar
-                        + "input.mp4";
-                String outputVideo = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separatorChar
-                        + "output_1280x720_yuv420p.yuv";
-                PlayerStudyBridge.decode(inputVideo, outputVideo);
+                final String inputVideo = Environment.getExternalStorageDirectory().getAbsolutePath() + File
+                        .separatorChar + "input.mp4";
+                final String outputVideo = Environment.getExternalStorageDirectory().getAbsolutePath() + File
+                        .separatorChar + "output_1280x720_yuv420p.yuv";
+                ThreadUtil.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        PlayerStudyBridge.decode(inputVideo, outputVideo);
+                    }
+                });
             }
         });
 
@@ -60,7 +63,7 @@ public class PlayerStudyActivity extends Activity{
                 final PlayerStudyBridge bridge = new PlayerStudyBridge();
                 final String inputVideo = Environment.getExternalStorageDirectory().getAbsolutePath() + File
                         .separatorChar  + "input.mp4";
-                sThreadPoll.submit(new Runnable() {
+                ThreadUtil.submit(new Runnable() {
                     @Override
                     public void run() {
                         bridge.player(inputVideo,videoView.getHolder().getSurface());
@@ -76,7 +79,7 @@ public class PlayerStudyActivity extends Activity{
                 final PlayerStudyBridge bridge = new PlayerStudyBridge();
                 final String inputAudio = Environment.getExternalStorageDirectory().getAbsolutePath() + File
                         .separatorChar  + "fmod.mp3";
-                sThreadPoll.submit(new Runnable() {
+                ThreadUtil.submit(new Runnable() {
                     @Override
                     public void run() {
                         bridge.playAudio(inputAudio);
@@ -86,16 +89,5 @@ public class PlayerStudyActivity extends Activity{
         });
     }
 
-    private static class MyThreadFactory implements ThreadFactory {
-        static final AtomicInteger threadNumber = new AtomicInteger(1);
-
-        @Override
-        public Thread newThread(Runnable r) {
-            String threadName = TAG + "_" + threadNumber.getAndIncrement();
-            Thread thread = new Thread(r,threadName);
-            Log.i(TAG,"新创建了线程:" + threadName);
-            return thread;
-        }
-    }
 
 }
