@@ -68,6 +68,22 @@ public class PlayerStudyActivity extends Activity{
                 });
             }
         });
+
+        View audioPlayerLayout = findViewById(R.id.audio_player_layout);
+        audioPlayerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PlayerStudyBridge bridge = new PlayerStudyBridge();
+                final String inputAudio = Environment.getExternalStorageDirectory().getAbsolutePath() + File
+                        .separatorChar  + "fmod.mp3";
+                sThreadPoll.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        bridge.playAudio(inputAudio);
+                    }
+                });
+            }
+        });
     }
 
     private static class MyThreadFactory implements ThreadFactory {
